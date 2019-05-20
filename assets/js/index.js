@@ -46,7 +46,7 @@
                 this.target.animate({ "width": width }, duration, "swing", () => {
                     if (name) {
                         var nameBar = $("<span>" + this.name + "</span>");
-                        this.target.append(nameBar.fadeIn(200, callback));
+                        this.target.append(nameBar.fadeIn(800, callback));
                     }
                     else
                         callback();
@@ -339,11 +339,13 @@ function insertSinger(singer, round)
                         redestroy(index - 1);
                 };
                 if (barDisplay.length >= roundConst[round])
-                    bars[barDisplay.length - 1].destroy(() => {
+                {
+                    setTimeout(() => bars[barDisplay.length - 1].destroy(() => {
                         bars[barDisplay.length - 1] = null;
                         barDisplay[barDisplay.length - 1] = null;
                         isInserting = false;
-                    });
+                    }), 1000);
+                }
                 else
                     isInserting = false;
             }
@@ -360,14 +362,10 @@ $(window).keydown(e => {
     switch (e.keyCode) {
         //Q模拟第一轮第十一个选手演唱后的出分流程
         case 81:
-            if (roundkey == 0)
+            if (roundkey == 0) {
                 roundkey = 1;
-            $("title").val("回合一");
-            //refresh(roundkey, () => {
-            //    if (singers.length > barDisplay.length || singers.length == roundConst[roundkey]) {
-            //        insertSinger((barDisplay.length < roundConst[roundkey]) ? getBestSinger(roundkey) : getLastSinger(roundkey), roundkey);
-            //    }
-            //});
+                $("#footnote").html("深圳中学第32届校园十大歌手比赛 - 半决赛第一轮").fadeIn(300);
+            }
             break;
             //W
         case 87:
@@ -388,21 +386,17 @@ $(window).keydown(e => {
                 });
             break;
         case 82:
-            if(roundkey == 0)
+            if (roundkey == 0)
+            {
                 roundkey = 2;
-            $("title").val("回合二");
-            //refresh(roundkey, () => {
-            //    if (singers.length > barDisplay.length || singers.length == roundConst[roundkey]) {
-            //        insertSinger((barDisplay.length < roundConst[roundkey]) ? getBestSinger(roundkey) : getLastSinger(roundkey), roundkey);
-            //    }
-            //});
+                $("#footnote").html("深圳中学第32届校园十大歌手比赛 - 半决赛第二轮").fadeIn(300);
+            }
             break;
         case 83:
             if (roundkey != 0)
                 refresh(roundkey, () => {
                     if (singers.length > barDisplay.length || singers.length == roundConst[roundkey]) {
                         var singer = getNextSinger(roundkey);
-                        console.log(`singers[${pointer + 1}]:${singers[pointer + 1]["name"]}将在下一位被展示`);
                         if(singer != null)
                             insertSinger(singer, roundkey);
                     }
@@ -422,7 +416,8 @@ $(window).keydown(e => {
     }
 });
 
-var colors = ["#efffff", "#faefff", "#ffffef", "#fff1ef", "#f1efff", "#ffeffb"];
+//变化各种颜色的背景
+var colors = ["#260027", "#260027", "#100027", "#001427", "#002725", "#0a2700"];
 var colorIndex = 0;
 setInterval(() => {
     if (colorIndex < colors.length)
