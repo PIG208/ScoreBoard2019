@@ -1,0 +1,116 @@
+﻿#scoreBars {
+    position: absolute;
+    top: 50%;
+    margin: auto auto auto 0;
+    border-left: 3px solid black;
+    padding-left: 0;
+}
+
+    #scoreBars > li {
+        display: block;
+        position: relative;
+        /*transition: top 1s;*/
+        height: 55px;
+        width: 25px;
+        min-width: 60px;
+        margin: 50px auto 50px -3px;
+        border-radius: 5px;
+        background-color: white;
+        border: solid 3px black;
+        cursor: pointer;
+    }
+
+        #scoreBars > li > span {
+            position: relative;
+            left: calc(100% + 30px);
+            top: 12px;
+            font-family: 'Microsoft YaHei UI';
+            font-size: 20px;
+        }
+
+#blank {
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+    background-color: white;
+}
+
+.formHolder {
+    display: none;
+    position: fixed;
+    width: 300px;
+    height: 250px;
+    margin: 0 auto 0 auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: solid 1px #a5a5a5;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 100);
+    text-align: center;
+}
+
+    .formHolder > form {
+        display: inherit;
+        position: relative;
+        top: 50%;
+        left: 20%;
+        transform: translate(0, -50%);
+        width: 60%;
+        font-size: 15px;
+        font-family: 'Microsoft YaHei';
+    }
+
+        .formHolder > form input {
+            margin: 15px 0 15px;
+            text-align: center;
+            border: 1px solid #d9d9d9;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+            .formHolder > form input:hover {
+                border-color: #0094ff;
+            }
+
+            .formHolder > form input:focus {
+                border-color: #c2eeff;
+            }
+
+        .formHolder > form .text {
+            width: 100px;
+            height: 25px;
+        }
+
+        .formHolder > form .radio {
+            width: 15px;
+            height: 15px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .formHolder > form label {
+            margin-right: 15px;
+        }
+
+.inputGroup {
+    display: block;
+}
+
+.submit {
+    margin: 15px 0 15px;
+    width: 75px;
+    height: 30px;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    background-color: #e5e5e5;
+}
+
+    .submit:hover {
+        transition: background-color;
+        background-color: #eaf9ff;
+        border-color: #c2eeff;
+    }
