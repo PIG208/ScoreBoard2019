@@ -5,7 +5,6 @@ using System.Web;
 using System.Collections.Generic;
 using System.Diagnostics;
 using MySql.Data.MySqlClient;
-using Scoreboard2019.Ajax.State;
 
 public class formHandler : IHttpHandler
 {
@@ -24,13 +23,13 @@ public class formHandler : IHttpHandler
 
         //验证分数是否合法
         if (!float.TryParse(score, out float scoreF))
-            throw new Exception("[Paramerror]: " + AjaxState.ParamError);
+            throw new Exception("[Paramerror]");
         else
             score = scoreF.ToString();
 
         //验证轮数是否合法
         if (!int.TryParse(round, out int roundI) || roundI < 1 || roundI > 2)
-            throw new Exception("[Paramerror]: " + AjaxState.ParamError);
+            throw new Exception("[Paramerror]");
         else
             round = roundI.ToString();
 

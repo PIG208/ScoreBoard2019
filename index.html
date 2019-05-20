@@ -115,8 +115,6 @@
 				background-color: #eaf9ff;
 				border-color: #c2eeff;
 			}
-
-        @media
     </style>
 </head>
 <body>
@@ -432,20 +430,22 @@
             return singer;
         }
 
-        function getNextSinger(round)
-        {
+        function getNextSinger(round) {
             var singer = null;
-            if (pointer > singers.length || singers[pointer] == null)
-            {
-                if (singers[0] != 0)
-                {
+            if (pointer > singers.length || singers[pointer] == null) {
+                if (singers[0] != 0) {
                     pointer = 0;
                     singer = singers[pointer];
                 }
             }
-            else
-            {
-                singer = singers[pointer++];
+            else {
+                if (!singer[`rd${round}_time_stamp`] != "") {
+                    pointer++;
+                    singer = getNextSinger(round);
+                }
+                else {
+                    singer = singers[pointer++];
+                }
             }
             return singer;
         }
