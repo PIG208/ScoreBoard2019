@@ -62,7 +62,7 @@
 //初始化
 var bars = new Array();
 var scores = new Map();
-var pointer = 0;
+var pointer = -1;
 var singers = new Array();
 var barDisplay = new Array();
 const roundConst = [0, 6, 4];
@@ -71,7 +71,7 @@ var isInserting = false;
 
 $(document).ready(() => {
     //获取选手数据
-    refresh(1);
+    refresh(1,() => console.log(singers));
     //分数条垂直居中
     fitBars($("#scoreBars"), () => {
         //回调隐藏遮罩
@@ -291,23 +291,16 @@ function getBestSinger(round)
 }
 
 function getNextSinger(round) {
-    var singer = null;
-    if (pointer > singers.length || singers[pointer] == null) {
-        if (singers[0] != 0) {
-            pointer = 0;
-            singer = singers[pointer];
-        }
+    var initPos = pointer;
+    while ((singers[++pointer] == null || barDisplay.includes(singers[pointer]) || singers[pointer][`rd${round}_time_stamp`] == "") && pointer != initPos)
+    {
+        if (pointer == singers.length)
+            pointer = -1;
     }
-    else {
-        if (!singer[`rd${round}_time_stamp`] != "") {
-            pointer++;
-            singer = getNextSinger(round);
-        }
-        else {
-            singer = singers[pointer++];
-        }
-    }
-    return singer;
+    if (pointer != initPos)
+        return singers[pointer];
+    else
+        return null;
 }
 
 function insertSinger(singer, round)
@@ -359,10 +352,11 @@ function insertSinger(singer, round)
     });
 }
 
+console.log("Q:回合锁定为1 W:插入分数最高的选手 E:插入最新的选手 R:回合锁定为2 S:按顺序插入选手")
 var roundkey = 0;
 //测试函数 Q键生成分数柱
 $(window).keydown(e => {
-    console.log(e.keyCode);
+    //console.log(e.keyCode);
     switch (e.keyCode) {
         //Q模拟第一轮第十一个选手演唱后的出分流程
         case 81:
@@ -407,7 +401,10 @@ $(window).keydown(e => {
             if (roundkey != 0)
                 refresh(roundkey, () => {
                     if (singers.length > barDisplay.length || singers.length == roundConst[roundkey]) {
-                        insertSinger(getNextSinger(roundkey), roundkey);
+                        var singer = getNextSinger(roundkey);
+                        console.log(`singers[${pointer + 1}]:${singers[pointer + 1]["name"]}将在下一位被展示`);
+                        if(singer != null)
+                            insertSinger(singer, roundkey);
                     }
                 });
             break;
@@ -424,6 +421,15 @@ $(window).keydown(e => {
             break;
     }
 });
+
+var colors = ["#efffff", "#faefff", "#ffffef", "#fff1ef", "#f1efff", "#ffeffb"];
+var colorIndex = 0;
+setInterval(() => {
+    if (colorIndex < colors.length)
+        $("body").css({ "background-color": colors[colorIndex++] });
+    else
+        colorIndex = 0;
+}, 4000);
 
 //测试函数 名字生成器
 const LAST_NAMES = "赵钱孙李周吴郑王冯陈楮卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章云苏潘葛奚范彭郎鲁韦昌马苗凤花方俞任袁柳酆鲍史唐费廉岑薛雷贺倪汤滕殷罗毕郝邬安常乐于时傅皮卞齐康伍余元卜顾孟平黄和穆萧尹姚邵湛汪祁毛禹狄米贝明臧计伏成戴谈宋茅庞";

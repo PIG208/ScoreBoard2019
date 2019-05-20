@@ -1,4 +1,8 @@
-﻿#scoreBars {
+﻿body {
+    transition:background 4s linear;
+}
+
+#scoreBars {
     position: absolute;
     top: 50%;
     margin: auto auto auto 0;
